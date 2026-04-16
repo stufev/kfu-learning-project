@@ -8,7 +8,8 @@ import Profile from "@/pages/Profile.vue";
 import Feedback from "@/pages/Feedback.vue";
 
 const routes = [
-    {path: '/', component: Courses},
+    {path: '/', component: Courses}, // todo component Home
+    {path: '/courses', component: Courses},
     {path: '/login', component: Login},
     {path: '/register', component: Register},
     {path: '/my', component: MyCourses, meta: {requiresAuth: true}},
