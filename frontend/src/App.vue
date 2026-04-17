@@ -6,7 +6,8 @@
         v-if="!isAuthPage"
     >
       <div class="flex items-center gap-3 mb-12">
-        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg">К
+        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg">
+          К
         </div>
         <div>
           <div class="font-bold text-base leading-tight">КФУ</div>
@@ -73,7 +74,9 @@
           <div class="text-right">
             <div class="text-xs text-muted">Учитель</div>
           </div>
-          <div class="w-8 h-8 bg-line rounded-full flex items-center justify-center overflow-hidden"></div>
+          <div class="w-8 h-8 bg-line rounded-full flex items-center justify-center overflow-hidden">
+            🔬
+          </div>
         </div>
       </header>
 

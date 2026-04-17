@@ -3,14 +3,16 @@
     <div class="card-shadow p-8 mb-6">
       <div class="flex justify-between items-start mb-6">
         <div>
-          <span class="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase mb-4 bg-blue-100 text-blue-800"
-                v-if="false">
+          <span
+              class="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase mb-4 bg-blue-100 text-blue-800"
+              v-if="false"
+          >
             {{ course.category }}
           </span>
           <h2 class="text-3xl font-bold mb-4">{{ course.title }}</h2>
           <div class="flex gap-6 text-sm text-muted">
-            <span class="flex items-center gap-2"> {{ course.duration }}</span>
-            <span class="flex items-center gap-2"> {{ course.format }}</span>
+            <span class="flex items-center gap-2">⏰ {{ course.duration }}</span>
+            <span class="flex items-center gap-2">🥼 {{ course.format }}</span>
             <span class="flex items-center gap-2" v-if="false"> {{ course.price }} ₽</span>
           </div>
         </div>
@@ -34,10 +36,11 @@
         </button>
         <div v-else class="flex items-center gap-4">
           <span class="bg-green-100 text-green-800 px-4 py-2 rounded-lg font-semibold flex items-center gap-2">
-            <Check :size="18"/> Вы уже записаны
+            Вы уже записаны
           </span>
-          <router-link to="/my-courses" class="text-primary font-medium hover:underline">Перейти к обучению
-          </router-link>
+          <div class="text-gray cursor-not-allowed font-medium">
+            Перейти к обучению
+          </div>
         </div>
       </div>
     </div>
@@ -49,7 +52,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import api from '../api'
 import {useAuthStore} from "@/store/auth.js";
@@ -58,26 +61,26 @@ const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
-const course = ref(null);
-const enrollments = ref([]);
-const loading = ref(false);
-const error = ref('');
+const course = ref(null)
+const enrollments = ref([])
+const loading = ref(false)
+const error = ref('')
 
-// todo доделать
-
+/**
+ * Загрузка курса
+ */
 const fetchCourse = async () => {
   try {
     const res = await api.get(`/courses/${route.params.id}`)
     course.value = res.data
   } catch (e) {
     console.log('Ошибка загрузки курса', e)
-  } finally {
-    loading.value = false
+    error.value = 'Не удалось загрузить курс'
   }
 }
 
 /**
- * Загрузка записей пользователя (ОДИН РАЗ)
+ * Загрузка записей пользователя
  */
 const loadEnrollments = async () => {
   if (!auth.isAuth) {
@@ -94,31 +97,50 @@ const loadEnrollments = async () => {
 }
 
 /**
- * Проверка записи на курс
+ * Computed: записан ли пользователь
  */
-const isEnrolled = (courseId) => {
-  return enrollments.value.some(e => e.course.id === courseId)
-}
+const isEnrolled = computed(() => {
+  if (!course.value) return false
+
+  return enrollments.value.some(
+      e => e.course.id === course.value.id
+  )
+})
 
 /**
  * Запись на курс
  */
-const enroll = async (courseId) => {
-  try {
-    await api.post('/enrollments', {courseId})
+const enroll = async () => {
+  if (!auth.isAuth) {
+    router.push('/login')
+    return
+  }
 
-    // обновляем только enrollments, не курсы
+  loading.value = true
+  error.value = ''
+
+  try {
+    await api.post('/enrollments', {
+      courseId: course.value.id
+    })
+
     await loadEnrollments()
   } catch (e) {
     console.log('Ошибка записи', e)
-    alert('Ошибка записи на курс')
+    error.value = 'Не удалось записаться на курс'
+  } finally {
+    loading.value = false
   }
 }
 
 onMounted(async () => {
+  loading.value = true
+
   await Promise.all([
     fetchCourse(),
     loadEnrollments()
   ])
+
+  loading.value = false
 })
 </script>

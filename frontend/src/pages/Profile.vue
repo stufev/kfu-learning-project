@@ -2,7 +2,7 @@
   <div class="max-w-2xl">
     <div class="card-shadow p-8">
       <div class="flex items-center gap-6 mb-8 pb-8 border-b border-line">
-        <div class="w-20 h-20 bg-nav-active rounded-full flex items-center justify-center"></div>
+        <div class="w-20 h-20 bg-nav-active rounded-full flex items-center justify-center">🔬</div>
         <div>
           <h2 class="text-2xl font-bold">{{ form.fullName }}</h2>
           <p class="text-muted">{{ form.email }}</p>

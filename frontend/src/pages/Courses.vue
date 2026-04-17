@@ -2,19 +2,25 @@
   <div>
     <section class="flex justify-between items-center mb-6">
       <h2 class="text-lg font-semibold">Все доступные программы</h2>
-      <select v-model="format" @change="onFilterChange">
-        <option value="">Все форматы</option>
-        <option value="online">online</option>
-        <option value="offline">offline</option>
-      </select>
-      <div class="relative">
-        <input
-            v-model="search"
-            placeholder="Поиск курса"
-            @input="onFilterChange"
-            type="text"
-            class="w-[300px] bg-white border border-line px-4 py-2.5 pl-10 rounded-lg text-sm focus:outline-none focus:border-primary"
-        />
+      <div class="flex">
+        <select
+            v-model="format"
+            @change="onFilterChange"
+            class="bg-white border border-line px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-primary cursor-pointer"
+        >
+          <option value="">Все форматы</option>
+          <option value="online">online</option>
+          <option value="offline">offline</option>
+        </select>
+        <div class="relative ml-[25px]">
+          <input
+              v-model="search"
+              placeholder="Поиск курса"
+              @input="onFilterChange"
+              type="text"
+              class="w-[300px] bg-white border border-line px-4 py-2.5 pl-10 rounded-lg text-sm focus:outline-none focus:border-primary"
+          />
+        </div>
       </div>
     </section>
 
@@ -29,8 +35,8 @@
           <h3 class="text-base font-semibold mb-2 leading-snug">{{ course.title }}</h3>
           <p class="text-sm text-muted line-clamp-2 mb-3">{{ course.description }}</p>
           <div class="flex gap-4 text-[13px] text-muted">
-            <span class="flex items-center gap-1"> {{ course.duration }}</span>
-            <span class="flex items-center gap-1"> {{ course.format }}</span>
+            <span class="flex items-center gap-1">⏰ {{ course.duration }}</span>
+            <span class="flex items-center gap-1">🥼 {{ course.format }}</span>
             <span class="flex items-center gap-1" v-if="false"> {{ course.price }} ₽</span>
           </div>
         </div>

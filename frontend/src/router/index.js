@@ -6,9 +6,10 @@ import MyCourses from "@/pages/MyCourses.vue";
 import Course from "@/pages/Course.vue";
 import Profile from "@/pages/Profile.vue";
 import Feedback from "@/pages/Feedback.vue";
+import Home from "@/pages/Home.vue";
 
 const routes = [
-    {path: '/', component: Courses}, // todo component Home
+    {path: '/', component: Home},
     {path: '/courses', component: Courses},
     {path: '/login', component: Login},
     {path: '/register', component: Register},
